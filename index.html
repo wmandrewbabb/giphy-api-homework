@@ -6,9 +6,21 @@
 
   <link rel="stylesheet" href="assets/scripts/reset.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Jomhuria|Lato|Passion+One|Playfair+Display:900|Roboto" rel="stylesheet">
 
   <style>
+
+    /* font-family: 'Passion One', cursive;
+    font-family: 'Jomhuria', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Abril Fatface', cursive;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', sans-serif; */
   
+  h1 {
+      font-family: 'Abril Fatface', cursive;
+  }
+
   button {
         margin-left: 0px;
         margin-right: 3px;
@@ -72,6 +84,21 @@
         z-index: 3;
     }
 
+    #more-results-row{
+        float:none;
+        clear: both;
+        width: 100%;
+    }
+
+    #more-results-button {
+        background: darkcyan;
+        display: none;
+        float: right;
+        padding: 5px;
+        color: white;
+        margin-right: 255px;
+    }
+
   </style>
 
 </head>
@@ -83,7 +110,7 @@
             
                 <!-- topics will get dumped here -->
                 <form id="topic-form">
-                    <label for="topic-input">topic Title:</label>
+                    <label for="topic-input">Topic Title:</label>
                     <input type="text" id="topic-input">
                   <!-- <br> -->
             
@@ -95,6 +122,7 @@
             
                 <div id="buttons-cache"></div>
                 <div id="gifs-appear-here"></div>
+                <div id="more-results-row"><div id="more-results-button">MORE RESULTS</div></div>
     
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -105,6 +133,7 @@
 
         //pull our user's buttons or create them if they're not already here
         var favoritesShowing = false;
+        var offset = 0;
 
         var favorites = JSON.parse(localStorage.getItem("favorites"));
         if (!Array.isArray(favorites)) {
@@ -184,8 +213,7 @@
             $("#gifs-appear-here").empty();
             event.preventDefault();
             favoritesShowing = true;
-
-            console.log("show favorites clicked");
+            $("#more-results-button").css('display','none');
 
             displayFavorites();
         
@@ -284,6 +312,10 @@
 
             $("#gifs-appear-here").empty();
             event.preventDefault();
+            $("#more-results-button").css('display','block');
+            // var resultsName = 
+            $("#more-results-button").attr("data-name", $(this).attr("data-name"));
+            offset = 0;
             favoritesShowing = false;
 
             var topic = $(this).attr("data-name");
@@ -295,36 +327,87 @@
                 method: "GET"
             }).then(function(response) {
 
-            var results = response.data;
+                var results = response.data;
 
-            console.log(results);
+                console.log(results);
 
-            for (var i = 0; i < results.length; i++) {
+                for (var i = 0; i < results.length; i++) {
 
-                var topicDiv = $("<div class='imageOutput'>");
-                var rating = results[i].rating;
-                var animatedSrc = results[i].images.fixed_height.url;
-                var staticSrc = results[i].images.fixed_height_still.url;
+                    var topicDiv = $("<div class='imageOutput'>");
+                    var rating = results[i].rating;
+                    var animatedSrc = results[i].images.fixed_height.url;
+                    var staticSrc = results[i].images.fixed_height_still.url;
 
-                var p = $("<div id='ratingText'>").text(rating);
-                var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
+                    var p = $("<div id='ratingText'>").text(rating);
+                    var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
 
-                var topicImage = $("<img>");
+                    var topicImage = $("<img>");
 
-                topicImage.attr("src", staticSrc);
-                topicImage.addClass("giphyResults");
-                topicImage.attr("data-state", "still");
-                topicImage.attr("data-still", staticSrc);
-                topicImage.attr("data-animate", animatedSrc);
-                topicDiv.append(p);
-                topicDiv.append(favThinger);
-                topicDiv.append(topicImage);
+                    topicImage.attr("src", staticSrc);
+                    topicImage.addClass("giphyResults");
+                    topicImage.attr("data-state", "still");
+                    topicImage.attr("data-still", staticSrc);
+                    topicImage.attr("data-animate", animatedSrc);
+                    topicDiv.append(p);
+                    topicDiv.append(favThinger);
+                    topicDiv.append(topicImage);
 
-                $("#gifs-appear-here").prepend(topicDiv);
+                    $("#gifs-appear-here").prepend(topicDiv);
 
-            }
-
+                }
             });
+        });
+
+        //could probably make this into a single function, but for some reason that's messing with the API timing?!
+
+        $(document).on("click", "#more-results-button", function(){
+
+            event.preventDefault();
+            offset = offset + 10;
+            favoritesShowing = false;
+
+            var topic = $(this).attr("data-name");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            topic + "&rating=r&api_key=dc6zaTOxFJmzC&offset="+ offset + "&limit=10"; //currently set to r-rated gifs because they're funnier
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response) {
+
+                var results = response.data;
+
+                console.log(results);
+
+                for (var i = 0; i < results.length; i++) {
+
+                    var topicDiv = $("<div class='imageOutput'>");
+                    var rating = results[i].rating;
+                    var animatedSrc = results[i].images.fixed_height.url;
+                    var staticSrc = results[i].images.fixed_height_still.url;
+
+                    var p = $("<div id='ratingText'>").text(rating);
+                    var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
+
+                    var topicImage = $("<img>");
+
+                    topicImage.attr("src", staticSrc);
+                    topicImage.addClass("giphyResults");
+                    topicImage.attr("data-state", "still");
+                    topicImage.attr("data-still", staticSrc);
+                    topicImage.attr("data-animate", animatedSrc);
+                    topicDiv.append(p);
+                    topicDiv.append(favThinger);
+                    topicDiv.append(topicImage);
+
+                    $("#gifs-appear-here").append(topicDiv);
+
+                }
+            });
+
+
+
+
         });
 
         //toggle our animation states
