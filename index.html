@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Quoth the Giphy</title>
+
+  <link rel="stylesheet" href="assets/scripts/reset.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+  <style>
+  
+  button {
+        margin-left: 0px;
+        margin-right: 3px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        padding: 5px;
+        padding-left:15px;
+        padding-right:15px;
+        border-radius: 15px;
+        border: solid;
+        border-color: black;
+        background-color: teal;
+        color:white;
+        transition: 0.3s;
+    }
+
+    button:hover{
+        /* background: orange; */
+        color: black;
+    }
+
+    img { 
+        height: 100px; 
+        width: auto; 
+        margin-right: 5px; 
+        margin-bottom: 5px; 
+    }
+
+    .imageOutput{
+        display: block;
+        float: left;
+        z-index: 1;
+        position: relative;
+    }
+
+    #ratingText{
+        position: absolute;
+        top: 0px;
+        line-height: .9rem;
+        right: 7px;
+        color: white;
+        z-index: 2;
+        opacity: .5;
+        text-transform: uppercase;
+    }
+
+
+  </style>
+
+</head>
+
+<body>
+
+        <div class="container">
+                <h1>PRES BUTAN TO GIF</h1>
+            
+                <!-- Movies will get dumped here -->
+                <form id="movie-form">
+                  <label for="movie-input">Movie Title:</label>
+                  <input type="text" id="movie-input">
+                  <!-- <br> -->
+            
+                  <!-- Button triggers new movie to be added -->
+                  <input class="inputC" id="add-movie" type="submit" value="Add a Movie">
+                  <input class="inputD" id="reset-gifs" type="submit" value="Clear Gifs">
+                  <input class="inputE" id="clear-buttons" type="submit" value="Default Buttons">
+                </form>
+            
+                <div id="buttons-cache"></div>
+                <div id="gifs-appear-here"></div>
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+
+        //pull our user's buttons or create them if they're not already here
+
+        var movies = JSON.parse(localStorage.getItem("movieButtons"));
+        if (!Array.isArray(movies)) {
+            movies = [
+                { 
+                    title:"The Matrix",
+                    color: randomColor({luminosity: 'dark'}),
+                },
+                { 
+                    title:"Predator",
+                    color: randomColor({luminosity: 'dark'}),
+                }, 
+                { 
+                    title:"Jaws",
+                    color: randomColor({luminosity: 'dark'}),
+                }, 
+                { 
+                    title:"Jurassic Park",
+                    color: randomColor({luminosity: 'dark'}),
+                }  
+            ];
+        }
+
+        // found a randomColor.js CDN that is way smarter about pretty colors than the simple one I have here, so I'm using that
+
+        // function randomColor() {
+        //     var letters = '0123456789ABCDEF';
+        //     var color = '#';
+
+        //     for (var i = 0; i < 6; i++) {
+        //         color += letters[Math.floor(Math.random() * 16)];
+        //     }
+
+        //     return color;
+        // }
+
+        //add our movie pill buttons
+        
+        $("#add-movie").on("click", function(event) {
+      
+            event.preventDefault();
+
+            var movieUserInput = $("#movie-input").val().trim();
+
+            if (movieUserInput === "") {
+
+                console.log("empty error")
+
+            } else {
+
+                var movieObj = {};
+                movieObj['title'] = movieUserInput;
+                movieObj['color'] = randomColor({luminosity: 'dark'});
+                movies.push(movieObj);
+            
+            }
+
+            $('#movie-form').children('#movie-input').val('')
+
+            localStorage.setItem("movieButtons", JSON.stringify(movies));
+
+
+            renderButtons();
+
+        });
+
+        //reset the gif area when it's lolhueg
+
+        $("#reset-gifs").on("click", function(event) {
+
+            $("#gifs-appear-here").empty();
+        
+        });
+
+        //return our buttons to default values (might be nice to take the todolist bit and just allow the users to remove them themselves?)
+
+        $("#clear-buttons").on("click", function(event) {
+
+            event.preventDefault();            
+            console.log("clear is being pressed");
+            movies = [
+                { 
+                    title:"The Matrix",
+                    color: randomColor({luminosity: 'dark'}),
+                },
+                { 
+                    title:"Predator",
+                    color: randomColor({luminosity: 'dark'}),
+                }, 
+                { 
+                    title:"Jaws",
+                    color: randomColor({luminosity: 'dark'}),
+                }, 
+                { 
+                    title:"Jurassic Park",
+                    color: randomColor({luminosity: 'dark'}),
+                }  
+            ];
+
+            localStorage.setItem("movieButtons", JSON.stringify(movies));
+
+            renderButtons();
+
+        });
+
+        //actually draw our buttons
+
+        function renderButtons() {
+
+            $('button').remove();
+
+            for (var i=0; i<movies.length; i++)
+            {
+                // var buttons = `<button value='${movies[i]}'>${movies[i]}</button>`;
+                // $('#movies-view').append(buttons);
+
+                var a =$("<button>");
+                a.addClass("movie");
+                a.attr("data-name", movies[i].title),
+                a.text(movies[i].title);
+                a.css("background-color", movies[i].color)
+                $('#buttons-cache').append(a);
+
+            }
+        }
+
+        //JQUERY YOU HAVE FAILED ME /angryfist
+        //Get API call on pill button push
+
+        $(document).on("click", "button", function(){
+
+            event.preventDefault();
+
+            var movie = $(this).attr("data-name");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            movie + "&rating=r&api_key=dc6zaTOxFJmzC&limit=10"; //currently set to r-rated gifs because they're funnier
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response) {
+
+            var results = response.data;
+
+            console.log(results);
+
+            for (var i = 0; i < results.length; i++) {
+
+                var movieDiv = $("<div class='imageOutput'>");
+                var rating = results[i].rating;
+                var animatedSrc = results[i].images.fixed_height.url;
+                var staticSrc = results[i].images.fixed_height_still.url;
+
+                var p = $("<div id='ratingText'>").text(rating);
+
+                var movieImage = $("<img>");
+
+                movieImage.attr("src", staticSrc);
+                movieImage.addClass("giphyResults");
+                movieImage.attr("data-state", "still");
+                movieImage.attr("data-still", staticSrc);
+                movieImage.attr("data-animate", animatedSrc);
+                movieDiv.append(p);
+                movieDiv.append(movieImage);
+
+                $("#gifs-appear-here").prepend(movieDiv);
+
+            }
+
+            });
+        });
+
+        //toggle our animation states
+
+        $(document).on("click", ".giphyResults", function() {
+           
+            var isAnimated = $(this).attr("data-state");
+
+            if (isAnimated === "still") {
+
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+
+            } else {
+
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+
+            }
+
+        });
+
+
+        renderButtons();
+
+    });
+
+    </script>
+
+</body>
+</html>
