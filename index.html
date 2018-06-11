@@ -66,6 +66,12 @@
         opacity: .5;
     }
 
+    .favorited {
+        background: linear-gradient( -45deg, white 50%, orange 50%  );
+        opacity: 1;
+        z-index: 3;
+    }
+
   </style>
 
 </head>
@@ -73,17 +79,17 @@
 <body>
 
         <div class="container">
-                <h1>PRES BUTAN TO GIF</h1>
+                <h1>GiphyPicker</h1>
             
-                <!-- Movies will get dumped here -->
-                <form id="movie-form">
-                    <label for="movie-input">Movie Title:</label>
-                    <input type="text" id="movie-input">
+                <!-- topics will get dumped here -->
+                <form id="topic-form">
+                    <label for="topic-input">topic Title:</label>
+                    <input type="text" id="topic-input">
                   <!-- <br> -->
             
-                  <!-- Button triggers new movie to be added -->
-                    <input class="input" id="add-movie" type="submit" value="Add a Movie">
-                    <input class="input" id="reset-gifs" type="submit" value="Clear Gifs">
+                  <!-- Button triggers new topic to be added -->
+                    <input class="input" id="add-topic" type="submit" value="Add a topic">
+                    <input class="input" id="show-favorites" type="submit" value="Favorites">
                     <input class="input" id="clear-buttons" type="submit" value="Default Buttons">
                 </form>
             
@@ -103,10 +109,10 @@
         if (!Array.isArray(favorites)) {
             favorites = [];
         }
-
-        var movies = JSON.parse(localStorage.getItem("movieButtons"));
-        if (!Array.isArray(movies)) {
-            movies = [
+        
+        var topics = JSON.parse(localStorage.getItem("topicButtons"));
+        if (!Array.isArray(topics)) {
+            topics = [
                 { 
                     title:"Godzilla",
                     color: randomColor({luminosity: 'dark'}),
@@ -140,41 +146,73 @@
         //     return color;
         // }
 
-        //add our movie pill buttons
+        //add our topic pill buttons
         
-        $("#add-movie").on("click", function(event) {
+        $("#add-topic").on("click", function(event) {
       
             event.preventDefault();
 
-            var movieUserInput = $("#movie-input").val().trim();
+            var topicUserInput = $("#topic-input").val().trim();
 
-            if (movieUserInput === "") {
+            if (topicUserInput === "") {
 
                 console.log("empty error")
 
             } else {
 
-                var movieObj = {};
-                movieObj['title'] = movieUserInput;
-                movieObj['color'] = randomColor({luminosity: 'dark'});
-                movies.push(movieObj);
+                var topicObj = {};
+                topicObj['title'] = topicUserInput;
+                topicObj['color'] = randomColor({luminosity: 'dark'});
+                topics.push(topicObj);
             
             }
 
-            $('#movie-form').children('#movie-input').val('')
+            $('#topic-form').children('#topic-input').val('')
 
-            localStorage.setItem("movieButtons", JSON.stringify(movies));
+            localStorage.setItem("topicButtons", JSON.stringify(topics));
 
 
             renderButtons();
 
         });
 
-        //reset the gif area when it's lolhueg
+        //show our favorites
 
-        $("#reset-gifs").on("click", function(event) {
+        $("#show-favorites").on("click", function(event) {
 
             $("#gifs-appear-here").empty();
+            event.preventDefault();
+
+            console.log("show favorites clicked");
+
+            for (i=0; i < favorites.length; i++){
+
+                console.log("favorite image# "+ i);
+
+                var favDiv = $("<div class='imageOutput'>");
+                var rating = favorites[i].rating;
+                var animatedSrc = favorites[i].animatedSrc;
+                var staticSrc = favorites[i].stillSrc;
+                var dataIn = favorites[i].dataIndex;
+
+                var p = $("<div id='ratingText'>").text(rating);
+                var favThinger = $("<div class='favTriangle favorited' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"' dataIndex='"+dataIn+"'>");
+
+                var favImage = $("<img>");
+
+                favImage.attr("src", staticSrc);
+                favImage.addClass("giphyResults");
+                favImage.attr("data-state", "still");
+                favImage.attr("data-still", staticSrc);
+                favImage.attr("data-animate", animatedSrc);
+                favDiv.append(p);
+                favDiv.append(favThinger);
+                favDiv.append(favImage);
+
+
+                $("#gifs-appear-here").prepend(favDiv);
+
+            }
         
         });
 
@@ -184,7 +222,7 @@
 
             event.preventDefault();            
             console.log("clear is being pressed");
-            movies = [
+            topics = [
                 { 
                     title:"Godzilla",
                     color: randomColor({luminosity: 'dark'}),
@@ -203,7 +241,7 @@
                 }  
             ];
 
-            localStorage.setItem("movieButtons", JSON.stringify(movies));
+            localStorage.setItem("topicButtons", JSON.stringify(topics));
 
             renderButtons();
 
@@ -215,16 +253,16 @@
 
             $('button').remove();
 
-            for (var i=0; i<movies.length; i++)
+            for (var i=0; i<topics.length; i++)
             {
-                // var buttons = `<button value='${movies[i]}'>${movies[i]}</button>`;
-                // $('#movies-view').append(buttons);
+                // var buttons = `<button value='${topics[i]}'>${topics[i]}</button>`;
+                // $('#topics-view').append(buttons);
 
                 var a =$("<button>");
-                a.addClass("movie");
-                a.attr("data-name", movies[i].title),
-                a.text(movies[i].title);
-                a.css("background-color", movies[i].color)
+                a.addClass("topic");
+                a.attr("data-name", topics[i].title),
+                a.text(topics[i].title);
+                a.css("background-color", topics[i].color)
                 $('#buttons-cache').append(a);
 
             }
@@ -235,11 +273,12 @@
 
         $(document).on("click", "button", function(){
 
+            $("#gifs-appear-here").empty();
             event.preventDefault();
 
-            var movie = $(this).attr("data-name");
+            var topic = $(this).attr("data-name");
             var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            movie + "&rating=r&api_key=dc6zaTOxFJmzC&limit=10"; //currently set to r-rated gifs because they're funnier
+            topic + "&rating=r&api_key=dc6zaTOxFJmzC&limit=10"; //currently set to r-rated gifs because they're funnier
 
             $.ajax({
                 url: queryURL,
@@ -252,7 +291,7 @@
 
             for (var i = 0; i < results.length; i++) {
 
-                var movieDiv = $("<div class='imageOutput'>");
+                var topicDiv = $("<div class='imageOutput'>");
                 var rating = results[i].rating;
                 var animatedSrc = results[i].images.fixed_height.url;
                 var staticSrc = results[i].images.fixed_height_still.url;
@@ -260,18 +299,18 @@
                 var p = $("<div id='ratingText'>").text(rating);
                 var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
 
-                var movieImage = $("<img>");
+                var topicImage = $("<img>");
 
-                movieImage.attr("src", staticSrc);
-                movieImage.addClass("giphyResults");
-                movieImage.attr("data-state", "still");
-                movieImage.attr("data-still", staticSrc);
-                movieImage.attr("data-animate", animatedSrc);
-                movieDiv.append(p);
-                movieDiv.append(favThinger);
-                movieDiv.append(movieImage);
+                topicImage.attr("src", staticSrc);
+                topicImage.addClass("giphyResults");
+                topicImage.attr("data-state", "still");
+                topicImage.attr("data-still", staticSrc);
+                topicImage.attr("data-animate", animatedSrc);
+                topicDiv.append(p);
+                topicDiv.append(favThinger);
+                topicDiv.append(topicImage);
 
-                $("#gifs-appear-here").prepend(movieDiv);
+                $("#gifs-appear-here").prepend(topicDiv);
 
             }
 
@@ -300,22 +339,43 @@
 
          $(document).on("click", ".favTriangle", function() {
     
-            $(this).css("background", "linear-gradient( -45deg, transparent 50%, orange 50%  )");
-            var favRating =  $(this).attr("rating");
-            var favAnimated = $(this).attr("animatedSrc");
-            var favStill = $(this).attr("staticSrc");
+            if (!$(this).hasClass("favorited")) {
+                
+                $(this).addClass("favorited");
+                var favRating =  $(this).attr("rating");
+                var favAnimated = $(this).attr("animatedSrc");
+                var favStill = $(this).attr("staticSrc");
+                var favIndex = favorites.length;
+                
 
-            
-            var favoritesObj = {};
+                
+                var favoritesObj = {};
 
-            favoritesObj['rating'] = favRating;
-            favoritesObj['animatedSrc'] = favAnimated;
-            favoritesObj['stillSrc'] = favStill;
-            favorites.push(favoritesObj);
-            
-            localStorage.setItem("favorites", JSON.stringify(favorites));
-            console.log(favorites);
-            console.log(favoritesObj);
+                favoritesObj['rating'] = favRating;
+                favoritesObj['animatedSrc'] = favAnimated;
+                favoritesObj['stillSrc'] = favStill;
+                favoritesObj['dataIndex'] = favIndex;
+                favorites.push(favoritesObj);
+
+                console.log("favorites length: " + favorites.length);
+                
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+                $(this).attr("dataIndex", favIndex);
+
+            } else {
+
+                console.log("this item is already favorited");
+                var deleteFavorites = JSON.parse(localStorage.getItem("favorites"));
+                var currentIndex = $(this).attr("dataIndex");
+
+                // Deletes the item marked for deletion
+                deleteFavorites.splice(currentIndex, 1);
+                favorites = deleteFavorites;
+
+                localStorage.setItem("favorites", JSON.stringify(deleteFavorites));
+                $(this).removeClass("favorited").removeAttr("dataIndex");
+
+            }
 
         });
 
