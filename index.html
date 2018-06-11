@@ -55,6 +55,16 @@
         text-transform: uppercase;
     }
 
+    .favTriangle{
+        width:25px;
+        height:25px;
+        background: linear-gradient( -45deg, transparent 50%, white 50%  );
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        opacity: .5;
+    }
 
   </style>
 
@@ -89,11 +99,16 @@
 
         //pull our user's buttons or create them if they're not already here
 
+        var favorites = JSON.parse(localStorage.getItem("favorites"));
+        if (!Array.isArray(favorites)) {
+            favorites = [];
+        }
+
         var movies = JSON.parse(localStorage.getItem("movieButtons"));
         if (!Array.isArray(movies)) {
             movies = [
                 { 
-                    title:"The Matrix",
+                    title:"Godzilla",
                     color: randomColor({luminosity: 'dark'}),
                 },
                 { 
@@ -171,7 +186,7 @@
             console.log("clear is being pressed");
             movies = [
                 { 
-                    title:"The Matrix",
+                    title:"Godzilla",
                     color: randomColor({luminosity: 'dark'}),
                 },
                 { 
@@ -243,6 +258,7 @@
                 var staticSrc = results[i].images.fixed_height_still.url;
 
                 var p = $("<div id='ratingText'>").text(rating);
+                var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
 
                 var movieImage = $("<img>");
 
@@ -252,6 +268,7 @@
                 movieImage.attr("data-still", staticSrc);
                 movieImage.attr("data-animate", animatedSrc);
                 movieDiv.append(p);
+                movieDiv.append(favThinger);
                 movieDiv.append(movieImage);
 
                 $("#gifs-appear-here").prepend(movieDiv);
@@ -278,6 +295,27 @@
                 $(this).attr("data-state", "still");
 
             }
+
+        });
+
+         $(document).on("click", ".favTriangle", function() {
+    
+            $(this).css("background", "linear-gradient( -45deg, transparent 50%, orange 50%  )");
+            var favRating =  $(this).attr("rating");
+            var favAnimated = $(this).attr("animatedSrc");
+            var favStill = $(this).attr("staticSrc");
+
+            
+            var favoritesObj = {};
+
+            favoritesObj['rating'] = favRating;
+            favoritesObj['animatedSrc'] = favAnimated;
+            favoritesObj['stillSrc'] = favStill;
+            favorites.push(favoritesObj);
+            
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            console.log(favorites);
+            console.log(favoritesObj);
 
         });
 
