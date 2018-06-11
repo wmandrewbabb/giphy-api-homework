@@ -96,7 +96,7 @@
         float: right;
         padding: 5px;
         color: white;
-        margin-right: 255px;
+        margin-right: 25px;
     }
 
   </style>
@@ -106,24 +106,29 @@
 <body>
 
         <div class="container">
-                <h1>GiphyPicker</h1>
-            
+                <div class="row">
+                    <h1>GiphyPicker</h1>
+                </div>
                 <!-- topics will get dumped here -->
-                <form id="topic-form">
-                    <label for="topic-input">Topic Title:</label>
-                    <input type="text" id="topic-input">
-                  <!-- <br> -->
-            
-                  <!-- Button triggers new topic to be added -->
-                    <input class="input" id="add-topic" type="submit" value="Add a topic">
-                    <input class="input" id="show-favorites" type="submit" value="Favorites">
-                    <input class="input" id="clear-buttons" type="submit" value="Default Buttons">
-                </form>
-            
-                <div id="buttons-cache"></div>
-                <div id="gifs-appear-here"></div>
-                <div id="more-results-row"><div id="more-results-button">MORE RESULTS</div></div>
-    
+                <div class="d-flex flex-row-reverse">
+                    <div class="col-sm-4 col-sm-push-8">
+                        <form id="topic-form">
+                            <label for="topic-input">Topic Title:</label>
+                            <input type="text" id="topic-input">
+                        <!-- <br> -->
+                    
+                        <!-- Button triggers new topic to be added -->
+                            <input class="input" id="add-topic" type="submit" value="Add a topic">
+                            <input class="input" id="show-favorites" type="submit" value="Favorites">
+                            <input class="input" id="clear-buttons" type="submit" value="Default Buttons">
+                        </form>
+                    </div>
+                    <div class="col-sm-8 col-sm-pull-4">
+                        <div id="buttons-cache"></div>
+                        <div id="gifs-appear-here"></div>
+                        <div id="more-results-row"><div id="more-results-button">MORE RESULTS</div></div>
+                    </div>
+                </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
