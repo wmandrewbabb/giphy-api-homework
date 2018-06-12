@@ -40,6 +40,10 @@
         font-family: 'Roboto Condensed', sans-serif;
     }
 
+    p {
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+
     button:hover{
         /* background: orange; */
         color: black;
@@ -100,6 +104,16 @@
         padding: 5px;
         color: white;
         margin-right: 25px;
+        font-weight: 300;
+        box-shadow: 2px 2px #000;
+        border: solid;
+        border-color: black;
+        border-width: 1px;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    form {
+        font-family: 'Roboto Condensed', sans-serif;
     }
 
   </style>
@@ -116,7 +130,7 @@
                 <div class="d-flex flex-row-reverse">
                     <div class="col-sm-4 col-sm-push-8">
                         <form id="topic-form">
-                            <label for="topic-input">Topic Title:</label>
+                            <label for="topic-input">Topic Title: </label>
                             <input type="text" id="topic-input">
                         <!-- <br> -->
                     
@@ -125,11 +139,18 @@
                             <input class="input" id="show-favorites" type="submit" value="Favorites">
                             <input class="input" id="clear-buttons" type="submit" value="Default Buttons">
                         </form>
+                        <br>
+                        <div id="buttons-cache"></div>
                     </div>
                     <div class="col-sm-8 col-sm-pull-4">
-                        <div id="buttons-cache"></div>
-                        <div id="gifs-appear-here"></div>
-                        <div id="more-results-row"><div id="more-results-button">MORE RESULTS</div></div>
+                        <div id="gifs-appear-here">
+                            <br>
+                            <p>This is a simple Giphy search web app using the Giphy API.</p>
+                            <p>Add topics to search 10 gifs at a time, mark favorites, and retain your buttons and favorites between visits.</p>
+                            <p>Click the upper left hand corner to mark your favorites.</p>
+                            <p> Click on a .gif to see it animate.</p>
+                        </div>
+                        <div id="more-results-row"><div id="more-results-button">More Results 🢂</div></div>
                     </div>
                 </div>
     
