@@ -122,7 +122,7 @@
             cursor: pointer;
         }
 
-        .downloadIco {
+        /* .downloadIco {
             width:20px;
             height:20px;
             position: absolute;
@@ -131,14 +131,14 @@
             z-index: 2;
             opacity: .5;
             cursor: pointer;
-        }
+        } */
 
         .magGlass{
             width:25px;
             height:25px;
             position: absolute;
             right: 5px;
-            bottom: 32px;
+            bottom: 5px;
             z-index: 2;
             opacity: .5;
             cursor: pointer;
@@ -147,10 +147,10 @@
         .magGlass:hover {
             opacity: .8;
         }
-
+/* 
         .downloadIco:hover{
             opacity: .8;
-        }
+        } */
     
         .favorited {
             background: linear-gradient( -45deg, white 50%, orange 50%  );

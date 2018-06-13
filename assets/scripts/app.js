@@ -118,7 +118,7 @@ $(document).ready(function() {
                 var p = $("<div id='ratingText'>").text(rating);
                 var favThinger = $("<div class='favTriangle favorited' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"' dataIndex='"+dataIn+"'>");
                 var magGlass = $("<img src='assets/images/magglass.png' class='magGlass' animatedSrc="+animatedSrc+">")
-                var downloadButton = $("<img src='assets/images/downloadicon.png' class='downloadIco' fileSrc="+animatedSrc+">")
+                // var downloadButton = $("<img src='assets/images/downloadicon.png' class='downloadIco' fileSrc="+animatedSrc+">")
 
                 var favImage = $("<img class='resultsImg'>");
 
@@ -130,7 +130,7 @@ $(document).ready(function() {
                 favDiv.append(p);
                 favDiv.append(favThinger);
                 favDiv.append(magGlass);
-                favDiv.append(downloadButton);
+                // favDiv.append(downloadButton);
                 favDiv.append(favImage);
                 favDiv.append("<div></div>\n\r");
 
@@ -213,10 +213,12 @@ $(document).ready(function() {
                 var animatedSrc = results[i].images.fixed_height.url;
                 var staticSrc = results[i].images.fixed_height_still.url;
 
+                console.log(results[i]);
+
                 var p = $("<div id='ratingText'>").text(rating);
                 var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
                 var magGlass = $("<img src='assets/images/magglass.png' class='magGlass' animatedSrc="+animatedSrc+">")
-                var downloadButton = $("<img src='assets/images/downloadicon.png' class='downloadIco' fileSrc="+animatedSrc+">")
+                // var downloadButton = $("<img src='assets/images/downloadicon.png' class='downloadIco' fileSrc="+animatedSrc+">")
 
 
                 for (x=0; x<favorites.length; x++){
@@ -235,7 +237,7 @@ $(document).ready(function() {
                 topicDiv.append(p);
                 topicDiv.append(favThinger);
                 topicDiv.append(magGlass);
-                topicDiv.append(downloadButton);
+                // topicDiv.append(downloadButton);
                 topicDiv.append(topicImage);
                 topicDiv.append("<div></div>\n\r");
 
@@ -275,7 +277,7 @@ $(document).ready(function() {
                 var p = $("<div id='ratingText'>").text(rating);
                 var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
                 var magGlass = $("<img src='assets/images/magglass.png' class='magGlass' animatedSrc="+animatedSrc+">")
-                var downloadButton = $("<img src='assets/images/downloadicon.png' class='downloadIco' fileSrc="+animatedSrc+">")
+                // var downloadButton = $("<img src='assets/images/downloadicon.png' class='downloadIco' fileSrc="+animatedSrc+">")
 
                 for (x=0; x<favorites.length; x++){
                     if (animatedSrc == favorites[x].animatedSrc) {
@@ -293,7 +295,7 @@ $(document).ready(function() {
                 topicDiv.append(p);
                 topicDiv.append(favThinger);
                 topicDiv.append(magGlass);
-                topicDiv.append(downloadButton);
+                // topicDiv.append(downloadButton);
                 topicDiv.append(topicImage);
                 topicDiv.append("<div></div>\n\r");
 
@@ -388,20 +390,22 @@ $(document).on("click",".magGlass", function() {
 
 });
 
-$(document).on("click",".downloadIco", function(e) {
+//The giphy API no longer permits direct linking to their URLs to download, apparently? Keep getting a 403 forbidden with a redirect to the giphy page.
 
-    e.preventDefault();
-    console.log($(this).attr('fileSrc'));
-    // window.location.href = $(this).attr('fileSrc');  
+// $(document).on("click",".downloadIco", function(e) {
 
-    // var a = document.createElement('a');
-    // a.href = $(this).attr('fileSrc');
-    // a.download = $(this).attr('fileSrc');
-    // document.body.appendChild(a);
-    // a.click();
-    // document.body.removeChild(a);
+//     e.preventDefault();
+//     console.log($(this).attr('fileSrc'));
+//     // window.location.href = $(this).attr('fileSrc');  
 
-});
+//     // var a = document.createElement('a');
+//     // a.href = $(this).attr('fileSrc');
+//     // a.download = $(this).attr('fileSrc');
+//     // document.body.appendChild(a);
+//     // a.click();
+//     // document.body.removeChild(a);
+
+// });
 
 
 
