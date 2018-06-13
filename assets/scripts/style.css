@@ -64,7 +64,7 @@
             padding: 5px;
             padding-left:15px;
             padding-right:15px;
-            /* border-radius: 15px; */
+            border-radius: 0px!important;
             border: solid;
             border-color: black;
             background-color: teal;
@@ -76,6 +76,10 @@
             font-family: 'Roboto Condensed', sans-serif;
         }
     
+        .btn{
+            border-radius: 0px!important;
+        }
+
         p {
             font-family: 'Roboto Condensed', sans-serif;
         }
