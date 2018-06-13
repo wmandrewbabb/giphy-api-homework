@@ -7,513 +7,66 @@
   <link rel="stylesheet" href="assets/scripts/reset.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Jomhuria|Lato|Passion+One|Playfair+Display:900|Roboto+Condensed" rel="stylesheet">
+  <link rel="stylesheet" href="assets/scripts/style.css">
 
-  <style>
-
-    /* font-family: 'Passion One', cursive;
-    font-family: 'Jomhuria', cursive;
-    font-family: 'Playfair Display', serif;
-    font-family: 'Abril Fatface', cursive;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-family: 'Lato', sans-serif; */
-  
-  h1 {
-      font-family: 'Abril Fatface', cursive;
-  }
-
-  button {
-        margin-left: 0px;
-        margin-right: 3px;
-        margin-top: 0px;
-        margin-bottom: 5px;
-        padding: 5px;
-        padding-left:15px;
-        padding-right:15px;
-        /* border-radius: 15px; */
-        border: solid;
-        border-color: black;
-        background-color: teal;
-        border-width: 0px;
-        color:white;
-        transition: 0.3s;
-        font-weight: 300;
-        box-shadow: 2px 2px #000;
-        font-family: 'Roboto Condensed', sans-serif;
-    }
-
-    p {
-        font-family: 'Roboto Condensed', sans-serif;
-    }
-
-    button:hover{
-        /* background: orange; */
-        color: black;
-    }
-
-    img { 
-        height: 100px; 
-        width: auto; 
-        margin-right: 5px; 
-        margin-bottom: 5px; 
-    }
-
-    .imageOutput{
-        display: block;
-        float: left;
-        z-index: 1;
-        position: relative;
-    }
-
-    #ratingText{
-        position: absolute;
-        top: 0px;
-        line-height: .9rem;
-        right: 7px;
-        color: white;
-        z-index: 2;
-        opacity: .5;
-        text-transform: uppercase;
-    }
-
-    .favTriangle{
-        width:25px;
-        height:25px;
-        background: linear-gradient( -45deg, transparent 50%, white 50%  );
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 2;
-        opacity: .5;
-        cursor: pointer;
-    }
-
-    .favorited {
-        background: linear-gradient( -45deg, white 50%, orange 50%  );
-        opacity: 1;
-        z-index: 3;
-        cursor: pointer;
-    }
-
-    #more-results-row{
-        float:none;
-        clear: both;
-        width: 100%;
-    }
-
-    #more-results-button {
-        background: darkcyan;
-        display: none;
-        float: right;
-        padding: 5px;
-        color: white;
-        margin-right: 25px;
-        font-weight: 300;
-        box-shadow: 2px 2px #000;
-        border: solid;
-        border-color: black;
-        border-width: 0px;
-        font-family: 'Roboto Condensed', sans-serif;
-    }
-
-    form {
-        font-family: 'Roboto Condensed', sans-serif;
-    }
-
-  </style>
 
 </head>
 
 <body>
-
+    <nav class="navbar navbar-topform navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">GiphyPicker</a>
+            <a class="navbar-brand navbar-exclaim" id="colorEasterEgg" href="#">!</a>   
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                            <a class="nav-link" id="show-favorites" href="#">Favorites</span></a>
+                    </li>
+                </ul>
+                
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand navbar-dark bg-dark navbar-searchbar">
+            <form class="form-inline navbar-searchform my-2 my-lg-0 ml-auto" id="topic-form">
+                <label for="topic-input"></label>
+                <input type="text" id="topic-input" placeholder="Search">
+                <!-- Button triggers new topic to be added -->
+                <input class="input btn btn-outline-info my-2 my-sm-0" id="add-topic" type="submit" value="Add Button">
+                <input class="input btn btn-outline-warning my-2 my-sm-0" id="clear-buttons" type="submit" value="Clear Buttons">
+            </form>
+        </nav>
         <div class="container">
-                <div class="row">
-                    <h1>GiphyPicker</h1>
-                </div>
                 <!-- topics will get dumped here -->
                 <div class="d-flex flex-row-reverse">
-                    <div class="col-sm-4 col-sm-push-8">
-                        <form id="topic-form">
-                            <label for="topic-input">Topic: </label>
-                            <input type="text" id="topic-input">
-                        <!-- <br> -->
-                    
-                        <!-- Button triggers new topic to be added -->
-                            <input class="input" id="add-topic" type="submit" value="Add a topic">
-                            <input class="input" id="show-favorites" type="submit" value="Favorites">
-                            <input class="input" id="clear-buttons" type="submit" value="Default Buttons">
-                        </form>
+                    <div class="col-xs-12 col-sm-4">
                         <br>
                         <div id="buttons-cache"></div>
                     </div>
-                    <div class="col-sm-8 col-sm-pull-4">
-                        <div id="gifs-appear-here">
-                            <br>
-                            <p>This is a simple Giphy search web app using the Giphy API.</p>
-                            <p>Add topics to search 10 gifs at a time, mark favorites, and retain your buttons and favorites between visits.</p>
-                            <p>Click the upper left hand corner to mark your favorites.</p>
-                            <p> Click on a .gif to see it animate.</p>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="d-inline-flex flex-fill flex-wrap justify-content-between" id="gifs-appear-here">
+                            <div class="d-flex flex-column">
+                                <p class="p-2">This is a simple Giphy search web app using the Giphy API.</p>
+                                <p class="p-2">Add topics to search 10 gifs at a time, mark favorites, and retain your buttons and favorites between visits.</p>
+                                <p class="p-2">Click the upper left hand corner to mark your favorites.</p>
+                                <p class="p-2"> Click on a .gif to see it animate.</p>
+                            </div>
                         </div>
                         <div id="more-results-row"><div id="more-results-button">More Results 🢂</div></div>
                     </div>
                 </div>
     
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="close">&times;</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="giphyImage">
+
+        </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
-    <script type="text/javascript">
-
-    $(document).ready(function() {
-
-        //pull our user's buttons or create them if they're not already here
-        var favoritesShowing = false;
-        var offset = 0;
-
-        var favorites = JSON.parse(localStorage.getItem("favorites"));
-        if (!Array.isArray(favorites)) {
-            favorites = [];
-        }
-        
-        var topics = JSON.parse(localStorage.getItem("topicButtons"));
-        if (!Array.isArray(topics)) {
-            topics = [
-                { 
-                    title:"Godzilla",
-                    color: randomColor({hue: 'purple'}),
-                },
-                { 
-                    title:"Predator",
-                    color: randomColor({hue: 'purple'}),
-                }, 
-                { 
-                    title:"Jaws",
-                    color: randomColor({hue: 'purple'}),
-                }, 
-                { 
-                    title:"Jurassic Park",
-                    color: randomColor({hue: 'purple'}),
-                }  
-            ];
-        }
-
-        // found a randomColor.js CDN that is way smarter about pretty colors than the simple one I have here, so I'm using that
-        // an example of that CDN is at https://randomcolor.lllllllllllllllll.com/
-
-        // function randomColor() {
-        //     var letters = '0123456789ABCDEF';
-        //     var color = '#';
-
-        //     for (var i = 0; i < 6; i++) {
-        //         color += letters[Math.floor(Math.random() * 16)];
-        //     }
-
-        //     return color;
-        // }
-
-        //add our topic pill buttons
-        
-        $("#add-topic").on("click", function(event) {
-      
-            event.preventDefault();
-
-            var topicUserInput = $("#topic-input").val().trim();
-
-            if (topicUserInput === "") {
-
-                console.log("empty error")
-
-            } else {
-
-                var topicObj = {};
-                topicObj['title'] = topicUserInput;
-                topicObj['color'] = randomColor({hue: 'purple'});
-                topics.push(topicObj);
-            
-            }
-
-            $('#topic-form').children('#topic-input').val('')
-
-            localStorage.setItem("topicButtons", JSON.stringify(topics));
-
-
-            renderButtons();
-
-        });
-
-        //show our favorites
-
-        $("#show-favorites").on("click", function(event) {
-
-            $("#gifs-appear-here").empty();
-            event.preventDefault();
-            favoritesShowing = true;
-            $("#more-results-button").css('display','none');
-
-            displayFavorites();
-        
-        });
-
-        function displayFavorites() {
-            if (favoritesShowing == true) {
-
-                $("#gifs-appear-here").empty();
-                for (i=0; i < favorites.length; i++){
-
-                    console.log("favorite image# "+ i);
-
-                    var favDiv = $("<div class='imageOutput'>");
-                    var rating = favorites[i].rating;
-                    var animatedSrc = favorites[i].animatedSrc;
-                    var staticSrc = favorites[i].stillSrc;
-                    var dataIn = i;
-
-                    var p = $("<div id='ratingText'>").text(rating);
-                    var favThinger = $("<div class='favTriangle favorited' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"' dataIndex='"+dataIn+"'>");
-
-                    var favImage = $("<img>");
-
-                    favImage.attr("src", staticSrc);
-                    favImage.addClass("giphyResults");
-                    favImage.attr("data-state", "still");
-                    favImage.attr("data-still", staticSrc);
-                    favImage.attr("data-animate", animatedSrc);
-                    favDiv.append(p);
-                    favDiv.append(favThinger);
-                    favDiv.append(favImage);
-
-
-                    $("#gifs-appear-here").prepend(favDiv);
-                }
-            }
-        }
-
-        //return our buttons to default values (might be nice to take the todolist bit and just allow the users to remove them themselves?)
-
-        $("#clear-buttons").on("click", function(event) {
-
-            event.preventDefault();            
-            console.log("clear is being pressed");
-            topics = [
-                { 
-                    title:"Godzilla",
-                    color: randomColor({hue: 'purple'}),
-                },
-                { 
-                    title:"Predator",
-                    color: randomColor({hue: 'purple'}),
-                }, 
-                { 
-                    title:"Jaws",
-                    color: randomColor({hue: 'purple'}),
-                }, 
-                { 
-                    title:"Jurassic Park",
-                    color: randomColor({hue: 'purple'}),
-                }  
-            ];
-
-            localStorage.setItem("topicButtons", JSON.stringify(topics));
-
-            renderButtons();
-
-        });
-
-        //actually draw our buttons
-
-        function renderButtons() {
-
-            $('button').remove();
-
-            for (var i=0; i<topics.length; i++)
-            {
-                // var buttons = `<button value='${topics[i]}'>${topics[i]}</button>`;
-                // $('#topics-view').append(buttons);
-
-                var a =$("<button>");
-                a.addClass("topic");
-                a.attr("data-name", topics[i].title),
-                a.text(topics[i].title);
-                a.css("background-color", topics[i].color)
-                $('#buttons-cache').append(a);
-
-            }
-        }
-
-        //JQUERY YOU HAVE FAILED ME /angryfist
-        //Get API call on pill button push
-
-        $(document).on("click", "button", function(){
-
-            $("#gifs-appear-here").empty();
-            event.preventDefault();
-            $("#more-results-button").css('display','block');
-            // var resultsName = 
-            $("#more-results-button").attr("data-name", $(this).attr("data-name"));
-            offset = 0;
-            favoritesShowing = false;
-
-            var topic = $(this).attr("data-name");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            topic + "&rating=r&api_key=dc6zaTOxFJmzC&limit=10"; //currently set to r-rated gifs because they're funnier
-
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function(response) {
-
-                var results = response.data;
-
-                console.log(results);
-
-                for (var i = 0; i < results.length; i++) {
-
-                    var topicDiv = $("<div class='imageOutput'>");
-                    var rating = results[i].rating;
-                    var animatedSrc = results[i].images.fixed_height.url;
-                    var staticSrc = results[i].images.fixed_height_still.url;
-
-                    var p = $("<div id='ratingText'>").text(rating);
-                    var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
-
-                    var topicImage = $("<img>");
-
-                    topicImage.attr("src", staticSrc);
-                    topicImage.addClass("giphyResults");
-                    topicImage.attr("data-state", "still");
-                    topicImage.attr("data-still", staticSrc);
-                    topicImage.attr("data-animate", animatedSrc);
-                    topicDiv.append(p);
-                    topicDiv.append(favThinger);
-                    topicDiv.append(topicImage);
-
-                    $("#gifs-appear-here").prepend(topicDiv);
-
-                }
-            });
-        });
-
-        //could probably make this into a single function, but for some reason that's messing with the API timing?!
-
-        $(document).on("click", "#more-results-button", function(){
-
-            event.preventDefault();
-            offset = offset + 10;
-            favoritesShowing = false;
-
-            var topic = $(this).attr("data-name");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            topic + "&rating=r&api_key=dc6zaTOxFJmzC&offset="+ offset + "&limit=10"; //currently set to r-rated gifs because they're funnier
-
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function(response) {
-
-                var results = response.data;
-
-                console.log(results);
-
-                for (var i = 0; i < results.length; i++) {
-
-                    var topicDiv = $("<div class='imageOutput'>");
-                    var rating = results[i].rating;
-                    var animatedSrc = results[i].images.fixed_height.url;
-                    var staticSrc = results[i].images.fixed_height_still.url;
-
-                    var p = $("<div id='ratingText'>").text(rating);
-                    var favThinger = $("<div class='favTriangle' rating='"+rating+"' animatedSrc='"+animatedSrc+"' staticSrc='"+staticSrc+"'>");
-
-                    var topicImage = $("<img>");
-
-                    topicImage.attr("src", staticSrc);
-                    topicImage.addClass("giphyResults");
-                    topicImage.attr("data-state", "still");
-                    topicImage.attr("data-still", staticSrc);
-                    topicImage.attr("data-animate", animatedSrc);
-                    topicDiv.append(p);
-                    topicDiv.append(favThinger);
-                    topicDiv.append(topicImage);
-
-                    $("#gifs-appear-here").append(topicDiv);
-
-                }
-            });
-
-
-
-
-        });
-
-        //toggle our animation states
-
-        $(document).on("click", ".giphyResults", function() {
-           
-            var isAnimated = $(this).attr("data-state");
-
-            if (isAnimated === "still") {
-
-                $(this).attr("src", $(this).attr("data-animate"));
-                $(this).attr("data-state", "animate");
-
-            } else {
-
-                $(this).attr("src", $(this).attr("data-still"));
-                $(this).attr("data-state", "still");
-
-            }
-
-        });
-
-         $(document).on("click", ".favTriangle", function() {
-    
-            if (!$(this).hasClass("favorited")) {
-                
-                $(this).addClass("favorited");
-                var favRating =  $(this).attr("rating");
-                var favAnimated = $(this).attr("animatedSrc");
-                var favStill = $(this).attr("staticSrc");
-                var favIndex = favorites.length;
-                
-
-                
-                var favoritesObj = {};
-
-                favoritesObj['rating'] = favRating;
-                favoritesObj['animatedSrc'] = favAnimated;
-                favoritesObj['stillSrc'] = favStill;
-                favoritesObj['dataIndex'] = favIndex;
-                favorites.push(favoritesObj);
-
-                console.log("favorites length: " + favorites.length);
-                
-                localStorage.setItem("favorites", JSON.stringify(favorites));
-                $(this).attr("dataIndex", favIndex);
-
-            } else {
-
-                var deleteFavorites = JSON.parse(localStorage.getItem("favorites"));
-                var currentIndex = $(this).attr("dataIndex");
-
-                // Deletes the item marked for deletion
-                deleteFavorites.splice(currentIndex, 1);
-                favorites = deleteFavorites;
-
-                console.log("currentIndex = "+ currentIndex);
-                console.log("favorites: "+ favorites);
-
-                localStorage.setItem("favorites", JSON.stringify(deleteFavorites));
-                $(this).removeClass("favorited").removeAttr("dataIndex");
-
-                displayFavorites();
-
-            }
-
-        });
-
-
-        renderButtons();
-
-    });
-
-    </script>
+    <script src="assets/scripts/app.js"></script>
 
 </body>
 </html>

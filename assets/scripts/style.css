@@ -1,0 +1,287 @@
+    /* font-family: 'Passion One', cursive;
+    font-family: 'Jomhuria', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Abril Fatface', cursive;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Lato', sans-serif; */
+  
+    body {
+        --main-bg-color: black;
+        --emphasiscolor: #fff;
+        --keycolor: teal;
+      }
+    
+      .bg-dark {
+          background-color: var(--main-bg-color)!important;;
+      }
+    
+      .navbar-brand {
+          font-family: 'Abril Fatface', cursive;
+          font-size: 3rem;
+          margin-left: 2rem;
+          color: var(--emphasiscolor);
+          /* text-shadow: 1px 1px var(--keycolor); */
+          padding-top: 2px!important;
+          padding-bottom: 10px!important;
+          line-height: 3rem;
+          margin-right: 2px!important;
+      }
+
+      .navbar-exclaim {
+          margin-left:0px!important;
+          color: var(--keycolor)!important;
+      }
+    
+      .navbar-searchform {
+          margin-top: 2px!important;
+          margin-bottom: 2px!important;
+      }
+    
+      .navbar-topform {
+        padding-top: 5px!important;
+        padding-bottom: 5px!important;
+      }
+
+      .nav-link {
+          font-family: 'Abril Fatface', cursive;
+          color: var(--keycolor)!important;
+          font-size: 150%;
+          margin-right: 2rem;
+      }
+    
+      .navbar-searchbar {
+          margin-bottom: 10px;
+          background-color: dimgray!important;
+          padding-top: 2px;
+          padding-bottom: 2px;
+      }
+    
+      button {
+            margin-left: 0px;
+            margin-right: 3px;
+            margin-top: 0px;
+            margin-bottom: 5px;
+            padding: 5px;
+            padding-left:15px;
+            padding-right:15px;
+            /* border-radius: 15px; */
+            border: solid;
+            border-color: black;
+            background-color: teal;
+            border-width: 0px;
+            color:white;
+            transition: 0.3s;
+            font-weight: 300;
+            box-shadow: 2px 2px #000;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+    
+        p {
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+    
+        button:hover{
+            /* background: orange; */
+            color: black;
+        }
+    
+        .resultsImg { 
+            height: 125px;  
+            width: auto; 
+            margin-right: 5px; 
+            margin-bottom: 5px; 
+        }
+    
+        .imageOutput{
+            display: block;
+            float: left;
+            z-index: 1;
+            position: relative;
+        }
+    
+        #ratingText{
+            position: absolute;
+            top: 0px;
+            line-height: .9rem;
+            right: 7px;
+            color: white;
+            z-index: 2;
+            opacity: .5;
+            text-transform: uppercase;
+        }
+    
+        .favTriangle{
+            width:25px;
+            height:25px;
+            background: linear-gradient( -45deg, transparent 50%, white 50%  );
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2;
+            opacity: .5;
+            cursor: pointer;
+        }
+
+        .downloadIco {
+            width:20px;
+            height:20px;
+            position: absolute;
+            right: 7px;
+            bottom: 7px;
+            z-index: 2;
+            opacity: .5;
+            cursor: pointer;
+        }
+
+        .magGlass{
+            width:25px;
+            height:25px;
+            position: absolute;
+            right: 5px;
+            bottom: 32px;
+            z-index: 2;
+            opacity: .5;
+            cursor: pointer;
+        }
+
+        .magGlass:hover {
+            opacity: .8;
+        }
+
+        .downloadIco:hover{
+            opacity: .8;
+        }
+    
+        .favorited {
+            background: linear-gradient( -45deg, white 50%, orange 50%  );
+            opacity: 1;
+            z-index: 3;
+            cursor: pointer;
+        }
+    
+        #more-results-row{
+            float:none;
+            clear: both;
+            width: 100%;
+        }
+    
+        #more-results-button {
+            background: darkcyan;
+            display: none;
+            float: right;
+            padding: 5px;
+            color: white;
+            margin-right: 25px;
+            font-weight: 300;
+            box-shadow: 2px 2px #000;
+            border: solid;
+            border-color: black;
+            border-width: 0px;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+        #gifs-appear-here {
+            align-content: space-between;
+        }
+    
+        form {
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+    
+        .btn-outline-info {
+            margin-left: 3px;
+        }
+    
+        .btn-outline-warning {
+            margin-left: 3px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .resultsImg { 
+                height: auto; 
+                width: 90%;
+                margin-left: 4%; 
+                margin-right: 4%; 
+                margin-bottom: 5px; 
+            }
+        }
+
+        /* Style the Image Used to Trigger the Modal */
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption { 
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
