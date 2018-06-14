@@ -190,6 +190,7 @@
             border-color: black;
             border-width: 0px;
             font-family: 'Roboto Condensed', sans-serif;
+            cursor: pointer;
         }
 
         #gifs-appear-here {
