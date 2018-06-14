@@ -370,9 +370,6 @@ $(document).ready(function() {
 
     });
 
-
-
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
