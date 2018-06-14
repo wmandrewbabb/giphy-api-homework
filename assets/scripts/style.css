@@ -209,11 +209,25 @@
         }
         
         @media only screen and (max-width: 600px) {
+
             .resultsImg { 
                 height: auto; 
                 width: 100%;
                 margin-bottom: 5px; 
             }
+
+            .navbar-brand {
+                font-size: 2.3rem;
+                margin-left: 5px;
+                line-height: 2.3rem;
+            }
+
+            .nav-link {
+                font-size: 100%;
+                margin-right: 2px;
+            }
+
+
         }
 
         /* Style the Image Used to Trigger the Modal */
