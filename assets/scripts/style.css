@@ -76,9 +76,14 @@
             font-family: 'Roboto Condensed', sans-serif;
         }
     
+        /* get rid of bootstrap's rounded buttons */
+
         .btn{
+
             border-radius: 0px!important;
+
         }
+    
 
         p {
             font-family: 'Roboto Condensed', sans-serif;
