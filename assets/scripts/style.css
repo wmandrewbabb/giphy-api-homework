@@ -191,6 +191,7 @@
             border-width: 0px;
             font-family: 'Roboto Condensed', sans-serif;
             cursor: pointer;
+            margin-bottom: 2rem;
         }
 
         #gifs-appear-here {
